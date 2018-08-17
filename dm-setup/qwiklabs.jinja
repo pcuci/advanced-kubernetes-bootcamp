@@ -46,10 +46,10 @@ resources:
     region: us-central1
     ipCidrRange: 10.128.0.0/20
 - type: compute.v1.subnetworks
-  name: {{ env['deployment'] }}-us-east4
+  name: {{ env['deployment'] }}-europe-west1
   properties:
     network: $(ref.{{ env['deployment'] }}-network.selfLink)
-    region: us-east4
+    region: europe-west1
     ipCidrRange: 10.132.0.0/20
 - type: compute.v1.route
   name: {{ env["deployment"] }}-default-route
@@ -76,9 +76,9 @@ resources:
 - name: east
   type: cluster.jinja
   properties:
-    location: us-east4-c
+    location: europe-west1-c
     network: $(ref.{{ env['deployment'] }}-network.name)
-    subnetwork: $(ref.{{ env['deployment'] }}-us-east4.name)
+    subnetwork: $(ref.{{ env['deployment'] }}-europe-west1.name)
     purpose: workloads
     apiVersion: v1beta1
     kubernetesVersion: "1.10.4"
@@ -86,7 +86,7 @@ resources:
     loggingService: logging.googleapis.com/kubernetes
   metadata:
     dependsOn:
-    - {{ env['deployment'] }}-us-east4
+    - {{ env['deployment'] }}-europe-west1
 - name: spinnaker
   type: cluster.jinja
   properties:

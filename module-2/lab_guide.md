@@ -29,18 +29,18 @@ You have three (3) Kubernetes Engine clusters in the project.  The suffix for th
 
 Create `kubeconfig` for all three clusters.
 ```
-export GKE_EAST=$(gcloud container clusters list --zone us-east4-b --format='value(name)')
+export GKE_EAST=$(gcloud container clusters list --zone europe-west1-b --format='value(name)')
 export GKE_WEST=$(gcloud container clusters list --zone us-west1-c --format='value(name)')
 export GKE_SPINNAKER=$(gcloud container clusters list --zone us-west1-b --format='value(name)')
 export PROJECT=$(gcloud info --format='value(config.project)')
 gcloud container clusters get-credentials $GKE_SPINNAKER --zone us-west1-b --project $PROJECT
-gcloud container clusters get-credentials $GKE_EAST --zone us-east4-b --project $PROJECT
+gcloud container clusters get-credentials $GKE_EAST --zone europe-west1-b --project $PROJECT
 gcloud container clusters get-credentials $GKE_WEST --zone us-west1-c --project $PROJECT
 ```
 Rename cluster contexts for easy switching.
 ```
 kubectx gke-spinnaker="gke_"$PROJECT"_us-west1-b_"$GKE_SPINNAKER
-kubectx gke-east="gke_"$PROJECT"_us-east4-b_"$GKE_EAST
+kubectx gke-east="gke_"$PROJECT"_europe-west1-b_"$GKE_EAST
 kubectx gke-west="gke_"$PROJECT"_us-west1-c_"$GKE_WEST
 ```
 Check new context names
@@ -176,7 +176,7 @@ Deploy pipeline via JSON
 ```
 cd ~/advanced-kubernetes-bootcamp/module-2/spinnaker
 export ZONE_WEST=us-west1-c
-export ZONE_EAST=us-east4-b
+export ZONE_EAST=europe-west1-b
 sed -e s/PROJECT/$PROJECT/g -e s/ZONE_WEST/$ZONE_WEST/g -e s/ZONE_EAST/$ZONE_EAST/g -e s/GKE_WEST/$GKE_WEST/g -e s/GKE_EAST/$GKE_EAST/g pipeline.json | curl -d@- -X \
     POST --header "Content-Type: application/json" --header \
     "Accept: /" http://localhost:8080/gate/pipelines
